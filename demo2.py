@@ -79,24 +79,18 @@ for i in path1:
 		
 		# cv2.waitKey(0)
 		(rects, weights) = hog.detectMultiScale(ROI, winStride=(2, 2),padding=(8, 8), scale=1.1)
-		# rects=rects[0]
-		newrects=[]
 		if len(rects)!=0:
-			newrects=rects[0]
-			print(newrects)
+			for (xd, yd, wd, hd) in rects:
+				print(xd, yd, wd, hd)
 			
+				xc=x1coord+xd
+				yc=y1coord+yd
+				cv2.rectangle(frame, (xc,yc), (xc+wd,yc+hd), (0,255,0),3)
+		
+			# cv2.rectangle(ROI, (newrects[0],newrects[1]), (newrects[0]+newrects[2],newrects[1]+newrects[3]), (0,255,0),3)
+			# cv2.imshow("ROI",ROI)
 
 		
-			cv2.rectangle(ROI, (newrects[0],newrects[1]), (newrects[0]+newrects[2],newrects[1]+newrects[3]), (0,255,0),3)
-			cv2.imshow("ROI",ROI)
-			xc=x1coord+newrects[0]
-			yc=y1coord+newrects[1]
-
-			wc=newrects[2]
-			hc=newrects[3]
-		
-		
-			cv2.rectangle(frame, (xc,yc), (xc+wc,yc+hc), (0,255,0),3)
 		
 		# cv2.rectangle(frame, (x,y), (x+w,y+h), (0,255,0),3)
 		
