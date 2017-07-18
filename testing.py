@@ -45,6 +45,7 @@ count=80
 bgModel.update_alpha(12)
 picNum=1
 for j in path[100:]:
+	
 	print(j)
 	firstFrame = cv2.imread(path[count],0)
 	count+=1
@@ -56,6 +57,7 @@ for j in path[100:]:
 	'''
 	# background Subtraction taking place
 	output =bgModel.backgroundSubtraction(currentImage)
+	
 	'''
 	plt.subplot(2,2,2)
 	plt.imshow(output,cmap='gray')
@@ -64,6 +66,8 @@ for j in path[100:]:
 	
 
 	output = cv2.morphologyEx(output, cv2.MORPH_OPEN, kernel)
+	
+
 	'''
 	plt.subplot(2,2,3)
 	plt.imshow(output,cmap='gray')
