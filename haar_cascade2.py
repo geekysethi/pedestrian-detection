@@ -15,17 +15,17 @@ kernel = np.ones((3,3),np.uint8)
 # pedestrian = detector.detectMultiScale(gray, 1.05, 3)
 
 # print(pedestrian)
-
+startTime=time.time()
 count=1
 
 for i in path1:
 	print("="*10,'FRAME NO.',count,'='*10)
-	count+=1
+
 	frame = cv2.imread(i,1)
 	fgmask = fgbg.apply(frame)
-	cv2.imshow('frame',fgmask)
+	# cv2.imshow('frame',fgmask)
 	fgmask = cv2.morphologyEx(fgmask, cv2.MORPH_OPEN, kernel)
-	cv2.imshow('frafgdme',fgmask)
+	# cv2.imshow('frafgdme',fgmask)
 
 	labels = measure.label(fgmask, neighbors=4, background=0)
 	mask = np.zeros(fgmask.shape, dtype="uint8")
@@ -44,7 +44,7 @@ for i in path1:
 		if numPixels > 300:
 			mask = cv2.add(mask, labelMask)
 
-	cv2.imshow('mask',mask)
+	# cv2.imshow('mask',mask)
 
 	cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
 	cv2.CHAIN_APPROX_SIMPLE)
@@ -68,7 +68,7 @@ for i in path1:
 
 			print(pedestrian)
 
-			cv2.imshow("ROI",ROI)
+			# cv2.imshow("ROI",ROI)
 
 			if len(pedestrian)!=0:
 				for (xd, yd, wd, hd) in pedestrian:
@@ -78,19 +78,17 @@ for i in path1:
 					yc=y1coord+yd
 					cv2.rectangle(frame, (xc,yc), (xc+wd,yc+hd), (0,255,0),2)
 		
+	endTime=time.time()
+	totalTime=endTime-startTime
 
-
-
-
-
-
-
-
-
-
-
-
-
+	FPS=count/totalTime
+	print(totalTime)
+	print(FPS)
+	FPS=round(FPS,2)
+	count+=1
+	
+	font = cv2.FONT_HERSHEY_SIMPLEX
+	cv2.putText(frame,str("FPS "+str(FPS)),(20,50), font, 1,(0,255,0),2,cv2.LINE_AA)
 	cv2.imshow("Image", frame)
 
 	k = cv2.waitKey(30) & 0xff

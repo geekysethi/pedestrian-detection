@@ -8,18 +8,18 @@ import time
 
 
 
-# path = np.sort(glob.glob('/home/geekysethi/Desktop/pedestrain-detection/Crowd_PETS09/S0/Background/View_001/Time_13-06/*.jpg'))
-path1 =np.sort(glob.glob('/home/geekysethi/Desktop/pedestrain-detection/Crowd_PETS09 (3)/S0/City_Center/Time_12-34/View_001/*.jpg'))
+path =np.sort(glob.glob('/home/geekysethi/Desktop/pedestrain-detection/Crowd_PETS09 (3)/S0/City_Center/Time_12-34/View_001/*.jpg'))
 fgbg = cv2.bgsegm.createBackgroundSubtractorMOG()
 
 hog = cv2.HOGDescriptor()
 hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 kernel = np.ones((3,3),np.uint8)
+startTime=time.time()
 
 count=1
-for i in path1:
+for i in path:
 	print("="*10,'FRAME NO.',count,'='*10)
-	count+=1
+	
 	frame = cv2.imread(i,1)
 	fgmask = fgbg.apply(frame)
 	# cv2.imshow('frame',fgmask)
@@ -44,7 +44,7 @@ for i in path1:
 		if numPixels > 300:
 			mask = cv2.add(mask, labelMask)
 
-	cv2.imshow('mask',mask)
+	# cv2.imshow('mask',mask)
 
 
 
@@ -55,6 +55,7 @@ for i in path1:
 	# print(cnts)
 	
 	cnts = cnts[0] if imutils.is_cv2() else cnts[1]
+
 	# for (j, c) in enumerate(cnts):
 		# print(j,c)
 	
@@ -74,18 +75,16 @@ for i in path1:
 			y2coord=y+h+thesh
 			
 			ROI = temp[y1coord:y2coord,x1coord:x2coord]
-		# time.sleep(0.1)
-		# ROI = frame[int(h*.5)+y:y+h+int(h*.5),w+x:x+2*w]
-		
-		# cv2.waitKey(0)
-		(rects, weights) = hog.detectMultiScale(ROI, winStride=(2, 2),padding=(8, 8), scale=1.1)
-		if len(rects)!=0:
-			for (xd, yd, wd, hd) in rects:
-				print(xd, yd, wd, hd)
 			
-				xc=x1coord+xd
-				yc=y1coord+yd
-				cv2.rectangle(frame, (xc,yc), (xc+wd,yc+hd), (0,255,0),2)
+	
+			(rects, weights) = hog.detectMultiScale(ROI, winStride=(2, 2),padding=(8, 8), scale=1.1)
+			if len(rects)!=0:
+				for (xd, yd, wd, hd) in rects:
+					print(xd, yd, wd, hd)
+			
+					xc=x1coord+xd
+					yc=y1coord+yd
+					cv2.rectangle(frame, (xc,yc), (xc+wd,yc+hd), (0,255,0),2)
 		
 			# cv2.rectangle(ROI, (newrects[0],newrects[1]), (newrects[0]+newrects[2],newrects[1]+newrects[3]), (0,255,0),3)
 			# cv2.imshow("ROI",ROI)
@@ -93,8 +92,20 @@ for i in path1:
 		
 		
 		# cv2.rectangle(frame, (x,y), (x+w,y+h), (0,255,0),3)
-		
+	
+	endTime=time.time()
+	totalTime=endTime-startTime
+
+	FPS=count/totalTime
+	print(totalTime)
+	print(FPS)
+	FPS=round(FPS,2)
+	count+=1
+	font = cv2.FONT_HERSHEY_SIMPLEX
+	cv2.putText(frame,str("FPS "+str(FPS)),(20,50), font, 1,(0,255,0),2,cv2.LINE_AA)	
 	cv2.imshow("Image", frame)
+
+	
 
 
 
