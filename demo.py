@@ -3,6 +3,7 @@ import numpy as np
 import glob 
 from imutils import contours
 from skimage import measure
+
 import imutils
 
 
@@ -45,6 +46,7 @@ fgbg = cv2.bgsegm.createBackgroundSubtractorMOG()
 # 		mask = cv2.add(mask, labelMask)
 
 # # cv2.imshow('mask',mask)
+
 
 # cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
 # 	cv2.CHAIN_APPROX_SIMPLE)

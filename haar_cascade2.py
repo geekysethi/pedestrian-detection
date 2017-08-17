@@ -7,7 +7,7 @@ import imutils
 import time
 
 detector = cv2.CascadeClassifier('/home/geekysethi/opencv-3.2.0/data/haarcascades/haarcascade_fullbody.xml')
-path1 =np.sort(glob.glob('/home/geekysethi/Desktop/pedestrain-detection/Crowd_PETS09 (3)/S0/City_Center/Time_12-34/View_001/*.jpg'))
+path =np.sort(glob.glob('/home/geekysethi/Desktop/pedestrain-detection/Crowd_PETS09 (3)/S0/City_Center/Time_12-34/View_001/*.jpg'))
 
 fgbg = cv2.bgsegm.createBackgroundSubtractorMOG()
 kernel = np.ones((3,3),np.uint8)
@@ -16,9 +16,10 @@ kernel = np.ones((3,3),np.uint8)
 
 # print(pedestrian)
 startTime=time.time()
+
 count=1
 
-for i in path1:
+for i in path:
 	print("="*10,'FRAME NO.',count,'='*10)
 
 	frame = cv2.imread(i,1)
@@ -97,5 +98,3 @@ for i in path1:
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()
-
-

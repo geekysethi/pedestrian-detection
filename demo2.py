@@ -85,7 +85,7 @@ for i in path1:
 			
 				xc=x1coord+xd
 				yc=y1coord+yd
-				cv2.rectangle(frame, (xc,yc), (xc+wd,yc+hd), (0,255,0),3)
+				cv2.rectangle(frame, (xc,yc), (xc+wd,yc+hd), (0,255,0),2)
 		
 			# cv2.rectangle(ROI, (newrects[0],newrects[1]), (newrects[0]+newrects[2],newrects[1]+newrects[3]), (0,255,0),3)
 			# cv2.imshow("ROI",ROI)
